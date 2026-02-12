@@ -17,8 +17,8 @@ import (
 	"github.com/xtls/xray-core/common/serial"
 	core "github.com/xtls/xray-core/core"
 	. "github.com/xtls/xray-core/infra/conf"
-	"github.com/xtls/xray-core/proxy/vmess"
-	"github.com/xtls/xray-core/proxy/vmess/inbound"
+	"github.com/xtls/xray-core/proxy/vless"
+	"github.com/xtls/xray-core/proxy/vless/inbound"
 	"github.com/xtls/xray-core/transport/internet"
 	"github.com/xtls/xray-core/transport/internet/tls"
 	"github.com/xtls/xray-core/transport/internet/websocket"
@@ -138,14 +138,12 @@ func TestXrayConfig(t *testing.T) {
 							},
 						}),
 						ProxySettings: serial.ToTypedMessage(&inbound.Config{
-							User: []*protocol.User{
+							Clients: []*protocol.User{
 								{
 									Level: 0,
-									Account: serial.ToTypedMessage(&vmess.Account{
-										Id: "0cdf8a45-303d-4fed-9780-29aa7f54175e",
-										SecuritySettings: &protocol.SecurityConfig{
-											Type: protocol.SecurityType_AES128_GCM,
-										},
+									Account: serial.ToTypedMessage(&vless.Account{
+										Id:         "0cdf8a45-303d-4fed-9780-29aa7f54175e",
+										Encryption: "none",
 									}),
 								},
 							},
@@ -215,7 +213,6 @@ func TestConfig_Override(t *testing.T) {
 				RouterConfig: &RouterConfig{},
 				DNSConfig:    &DNSConfig{},
 				Policy:       &PolicyConfig{},
-				API:          &APIConfig{},
 				Stats:        &StatsConfig{},
 			},
 			"",
@@ -224,7 +221,6 @@ func TestConfig_Override(t *testing.T) {
 				RouterConfig: &RouterConfig{},
 				DNSConfig:    &DNSConfig{},
 				Policy:       &PolicyConfig{},
-				API:          &APIConfig{},
 				Stats:        &StatsConfig{},
 			},
 		},

@@ -7,16 +7,16 @@ import (
 	"testing"
 
 	. "github.com/xtls/xray-core/common/reflect"
-	"github.com/xtls/xray-core/common/uuid"
 	cserial "github.com/xtls/xray-core/common/serial"
+	"github.com/xtls/xray-core/common/uuid"
 	iserial "github.com/xtls/xray-core/infra/conf/serial"
-	"github.com/xtls/xray-core/proxy/vmess"
+	"github.com/xtls/xray-core/proxy/vless"
 )
 
 func TestMashalAccount(t *testing.T) {
 	uuid := uuid.New()
-	
-	account := &vmess.Account{
+
+	account := &vless.Account{
 		Id: uuid.String(),
 	}
 
@@ -28,7 +28,7 @@ func TestMashalAccount(t *testing.T) {
 	if !strings.Contains(j, uuid.String()) {
 		t.Error("marshal account failed")
 	}
-	
+
 	// t.Log(j)
 }
 

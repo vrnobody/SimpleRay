@@ -6,8 +6,6 @@ option go_package = "github.com/xtls/xray-core/transport/internet/tls";
 option java_package = "com.xray.transport.internet.tls";
 option java_multiple_files = true;
 
-import "transport/internet/config.proto";
-
 message Certificate {
   // TLS certificate in x509 format.
   bytes certificate = 1;
@@ -76,14 +74,6 @@ message Config {
   repeated string curve_preferences = 16;
 
   repeated string verify_peer_cert_by_name = 17;
-
-  bytes ech_server_keys = 18;
-
-  string ech_config_list = 19;
-
-  string ech_force_query = 20;
-
-  SocketConfig ech_socket_settings = 21;
 
   repeated bytes pinned_peer_cert_sha256 = 22;
 }

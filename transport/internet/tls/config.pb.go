@@ -7,7 +7,6 @@
 package tls
 
 import (
-	internet "github.com/xtls/xray-core/transport/internet"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -201,13 +200,9 @@ type Config struct {
 	RejectUnknownSni bool   `protobuf:"varint,12,opt,name=reject_unknown_sni,json=rejectUnknownSni,proto3" json:"reject_unknown_sni,omitempty"`
 	MasterKeyLog     string `protobuf:"bytes,15,opt,name=master_key_log,json=masterKeyLog,proto3" json:"master_key_log,omitempty"`
 	// Lists of string as CurvePreferences values.
-	CurvePreferences     []string               `protobuf:"bytes,16,rep,name=curve_preferences,json=curvePreferences,proto3" json:"curve_preferences,omitempty"`
-	VerifyPeerCertByName []string               `protobuf:"bytes,17,rep,name=verify_peer_cert_by_name,json=verifyPeerCertByName,proto3" json:"verify_peer_cert_by_name,omitempty"`
-	EchServerKeys        []byte                 `protobuf:"bytes,18,opt,name=ech_server_keys,json=echServerKeys,proto3" json:"ech_server_keys,omitempty"`
-	EchConfigList        string                 `protobuf:"bytes,19,opt,name=ech_config_list,json=echConfigList,proto3" json:"ech_config_list,omitempty"`
-	EchForceQuery        string                 `protobuf:"bytes,20,opt,name=ech_force_query,json=echForceQuery,proto3" json:"ech_force_query,omitempty"`
-	EchSocketSettings    *internet.SocketConfig `protobuf:"bytes,21,opt,name=ech_socket_settings,json=echSocketSettings,proto3" json:"ech_socket_settings,omitempty"`
-	PinnedPeerCertSha256 [][]byte               `protobuf:"bytes,22,rep,name=pinned_peer_cert_sha256,json=pinnedPeerCertSha256,proto3" json:"pinned_peer_cert_sha256,omitempty"`
+	CurvePreferences     []string `protobuf:"bytes,16,rep,name=curve_preferences,json=curvePreferences,proto3" json:"curve_preferences,omitempty"`
+	VerifyPeerCertByName []string `protobuf:"bytes,17,rep,name=verify_peer_cert_by_name,json=verifyPeerCertByName,proto3" json:"verify_peer_cert_by_name,omitempty"`
+	PinnedPeerCertSha256 [][]byte `protobuf:"bytes,22,rep,name=pinned_peer_cert_sha256,json=pinnedPeerCertSha256,proto3" json:"pinned_peer_cert_sha256,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -340,34 +335,6 @@ func (x *Config) GetVerifyPeerCertByName() []string {
 	return nil
 }
 
-func (x *Config) GetEchServerKeys() []byte {
-	if x != nil {
-		return x.EchServerKeys
-	}
-	return nil
-}
-
-func (x *Config) GetEchConfigList() string {
-	if x != nil {
-		return x.EchConfigList
-	}
-	return ""
-}
-
-func (x *Config) GetEchForceQuery() string {
-	if x != nil {
-		return x.EchForceQuery
-	}
-	return ""
-}
-
-func (x *Config) GetEchSocketSettings() *internet.SocketConfig {
-	if x != nil {
-		return x.EchSocketSettings
-	}
-	return nil
-}
-
 func (x *Config) GetPinnedPeerCertSha256() [][]byte {
 	if x != nil {
 		return x.PinnedPeerCertSha256
@@ -379,7 +346,7 @@ var File_transport_internet_tls_config_proto protoreflect.FileDescriptor
 
 const file_transport_internet_tls_config_proto_rawDesc = "" +
 	"\n" +
-	"#transport/internet/tls/config.proto\x12\x1bxray.transport.internet.tls\x1a\x1ftransport/internet/config.proto\"\x83\x03\n" +
+	"#transport/internet/tls/config.proto\x12\x1bxray.transport.internet.tls\"\x83\x03\n" +
 	"\vCertificate\x12 \n" +
 	"\vcertificate\x18\x01 \x01(\fR\vcertificate\x12\x10\n" +
 	"\x03key\x18\x02 \x01(\fR\x03key\x12D\n" +
@@ -393,7 +360,7 @@ const file_transport_internet_tls_config_proto_rawDesc = "" +
 	"\x05Usage\x12\x10\n" +
 	"\fENCIPHERMENT\x10\x00\x12\x14\n" +
 	"\x10AUTHORITY_VERIFY\x10\x01\x12\x13\n" +
-	"\x0fAUTHORITY_ISSUE\x10\x02\"\xf5\x06\n" +
+	"\x0fAUTHORITY_ISSUE\x10\x02\"\xa6\x05\n" +
 	"\x06Config\x12%\n" +
 	"\x0eallow_insecure\x18\x01 \x01(\bR\rallowInsecure\x12J\n" +
 	"\vcertificate\x18\x02 \x03(\v2(.xray.transport.internet.tls.CertificateR\vcertificate\x12\x1f\n" +
@@ -411,11 +378,7 @@ const file_transport_internet_tls_config_proto_rawDesc = "" +
 	"\x12reject_unknown_sni\x18\f \x01(\bR\x10rejectUnknownSni\x12$\n" +
 	"\x0emaster_key_log\x18\x0f \x01(\tR\fmasterKeyLog\x12+\n" +
 	"\x11curve_preferences\x18\x10 \x03(\tR\x10curvePreferences\x126\n" +
-	"\x18verify_peer_cert_by_name\x18\x11 \x03(\tR\x14verifyPeerCertByName\x12&\n" +
-	"\x0fech_server_keys\x18\x12 \x01(\fR\rechServerKeys\x12&\n" +
-	"\x0fech_config_list\x18\x13 \x01(\tR\rechConfigList\x12&\n" +
-	"\x0fech_force_query\x18\x14 \x01(\tR\rechForceQuery\x12U\n" +
-	"\x13ech_socket_settings\x18\x15 \x01(\v2%.xray.transport.internet.SocketConfigR\x11echSocketSettings\x125\n" +
+	"\x18verify_peer_cert_by_name\x18\x11 \x03(\tR\x14verifyPeerCertByName\x125\n" +
 	"\x17pinned_peer_cert_sha256\x18\x16 \x03(\fR\x14pinnedPeerCertSha256Bs\n" +
 	"\x1fcom.xray.transport.internet.tlsP\x01Z0github.com/xtls/xray-core/transport/internet/tls\xaa\x02\x1bXray.Transport.Internet.Tlsb\x06proto3"
 
@@ -434,20 +397,18 @@ func file_transport_internet_tls_config_proto_rawDescGZIP() []byte {
 var file_transport_internet_tls_config_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_transport_internet_tls_config_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_transport_internet_tls_config_proto_goTypes = []any{
-	(Certificate_Usage)(0),        // 0: xray.transport.internet.tls.Certificate.Usage
-	(*Certificate)(nil),           // 1: xray.transport.internet.tls.Certificate
-	(*Config)(nil),                // 2: xray.transport.internet.tls.Config
-	(*internet.SocketConfig)(nil), // 3: xray.transport.internet.SocketConfig
+	(Certificate_Usage)(0), // 0: xray.transport.internet.tls.Certificate.Usage
+	(*Certificate)(nil),    // 1: xray.transport.internet.tls.Certificate
+	(*Config)(nil),         // 2: xray.transport.internet.tls.Config
 }
 var file_transport_internet_tls_config_proto_depIdxs = []int32{
 	0, // 0: xray.transport.internet.tls.Certificate.usage:type_name -> xray.transport.internet.tls.Certificate.Usage
 	1, // 1: xray.transport.internet.tls.Config.certificate:type_name -> xray.transport.internet.tls.Certificate
-	3, // 2: xray.transport.internet.tls.Config.ech_socket_settings:type_name -> xray.transport.internet.SocketConfig
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_transport_internet_tls_config_proto_init() }

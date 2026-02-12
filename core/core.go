@@ -24,8 +24,7 @@ var (
 
 var (
 	build    = "Custom"
-	expWarn  = "Experimental #33"
-	codename = "Xray, Penetrates Everything."
+	codename = "Keep it simple, stupid"
 	intro    = "A unified platform for anti-censorship."
 )
 
@@ -40,7 +39,7 @@ func VersionStatement() []string {
 	// disable unused variable wraning
 	_ = build
 	return []string{
-		serial.Concat("Xray ", Version(), " (", codename, ") ", expWarn, " (", runtime.Version(), " ", runtime.GOOS, "/", runtime.GOARCH, ")"),
+		serial.Concat("SimpleRay v", Version(), " (", codename, ") (", runtime.Version(), " ", runtime.GOOS, "/", runtime.GOARCH, ")"),
 		intro,
 	}
 }

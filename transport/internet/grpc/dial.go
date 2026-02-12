@@ -13,7 +13,6 @@ import (
 	"github.com/xtls/xray-core/common/utils"
 	"github.com/xtls/xray-core/transport/internet"
 	"github.com/xtls/xray-core/transport/internet/grpc/encoding"
-	"github.com/xtls/xray-core/transport/internet/reality"
 	"github.com/xtls/xray-core/transport/internet/stat"
 	"github.com/xtls/xray-core/transport/internet/tls"
 	"google.golang.org/grpc"
@@ -81,7 +80,6 @@ func getGrpcClient(ctx context.Context, dest net.Destination, streamSettings *in
 		globalDialerMap = make(map[dialerConf]*grpc.ClientConn)
 	}
 	tlsConfig := tls.ConfigFromStreamSettings(streamSettings)
-	realityConfig := reality.ConfigFromStreamSettings(streamSettings)
 	sockopt := streamSettings.SocketSettings
 	grpcSettings := streamSettings.ProtocolSettings.(*Config)
 
@@ -136,9 +134,6 @@ func getGrpcClient(ctx context.Context, dest net.Destination, streamSettings *in
 						return tls.Client(c, config), nil
 					}
 				}
-				if realityConfig != nil {
-					return reality.UClient(c, realityConfig, gctx, dest)
-				}
 			}
 			return c, err
 		}),
@@ -151,8 +146,6 @@ func getGrpcClient(ctx context.Context, dest net.Destination, streamSettings *in
 		authority = grpcSettings.Authority
 	} else if tlsConfig != nil && tlsConfig.ServerName != "" {
 		authority = tlsConfig.ServerName
-	} else if realityConfig == nil && dest.Address.Family().IsDomain() {
-		authority = dest.Address.Domain()
 	}
 	dialOptions = append(dialOptions, grpc.WithAuthority(authority))
 

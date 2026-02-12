@@ -17,9 +17,9 @@ import (
 	"github.com/xtls/xray-core/core"
 	"github.com/xtls/xray-core/proxy/dokodemo"
 	"github.com/xtls/xray-core/proxy/freedom"
-	"github.com/xtls/xray-core/proxy/vmess"
-	"github.com/xtls/xray-core/proxy/vmess/inbound"
-	"github.com/xtls/xray-core/proxy/vmess/outbound"
+	"github.com/xtls/xray-core/proxy/vless"
+	"github.com/xtls/xray-core/proxy/vless/inbound"
+	"github.com/xtls/xray-core/proxy/vless/outbound"
 	"github.com/xtls/xray-core/testing/servers/tcp"
 	"golang.org/x/sync/errgroup"
 )
@@ -43,7 +43,7 @@ func startQuickClosingTCPServer() (net.Listener, error) {
 	return listener, nil
 }
 
-func TestVMessClosing(t *testing.T) {
+func TestvlessClosing(t *testing.T) {
 	tcpServer, err := startQuickClosingTCPServer()
 	common.Must(err)
 	defer tcpServer.Close()
@@ -72,9 +72,9 @@ func TestVMessClosing(t *testing.T) {
 					Listen:   net.NewIPOrDomain(net.LocalHostIP),
 				}),
 				ProxySettings: serial.ToTypedMessage(&inbound.Config{
-					User: []*protocol.User{
+					Clients: []*protocol.User{
 						{
-							Account: serial.ToTypedMessage(&vmess.Account{
+							Account: serial.ToTypedMessage(&vless.Account{
 								Id: userID.String(),
 							}),
 						},
@@ -119,15 +119,12 @@ func TestVMessClosing(t *testing.T) {
 		Outbound: []*core.OutboundHandlerConfig{
 			{
 				ProxySettings: serial.ToTypedMessage(&outbound.Config{
-					Receiver: &protocol.ServerEndpoint{
+					Vnext: &protocol.ServerEndpoint{
 						Address: net.NewIPOrDomain(net.LocalHostIP),
 						Port:    uint32(serverPort),
-						User:    &protocol.User{
-							Account: serial.ToTypedMessage(&vmess.Account{
+						User: &protocol.User{
+							Account: serial.ToTypedMessage(&vless.Account{
 								Id: userID.String(),
-								SecuritySettings: &protocol.SecurityConfig{
-									Type: protocol.SecurityType_AES128_GCM,
-								},
 							}),
 						},
 					},
@@ -178,9 +175,9 @@ func TestZeroBuffer(t *testing.T) {
 					Listen:   net.NewIPOrDomain(net.LocalHostIP),
 				}),
 				ProxySettings: serial.ToTypedMessage(&inbound.Config{
-					User: []*protocol.User{
+					Clients: []*protocol.User{
 						{
-							Account: serial.ToTypedMessage(&vmess.Account{
+							Account: serial.ToTypedMessage(&vless.Account{
 								Id: userID.String(),
 							}),
 						},
@@ -219,15 +216,12 @@ func TestZeroBuffer(t *testing.T) {
 		Outbound: []*core.OutboundHandlerConfig{
 			{
 				ProxySettings: serial.ToTypedMessage(&outbound.Config{
-					Receiver: &protocol.ServerEndpoint{
+					Vnext: &protocol.ServerEndpoint{
 						Address: net.NewIPOrDomain(net.LocalHostIP),
 						Port:    uint32(serverPort),
-						User:    &protocol.User{
-							Account: serial.ToTypedMessage(&vmess.Account{
+						User: &protocol.User{
+							Account: serial.ToTypedMessage(&vless.Account{
 								Id: userID.String(),
-								SecuritySettings: &protocol.SecurityConfig{
-									Type: protocol.SecurityType_AES128_GCM,
-								},
 							}),
 						},
 					},
