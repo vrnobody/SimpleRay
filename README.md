@@ -1,8 +1,8 @@
 Simple Ray (Keep it simple, stupid)
 
-fork from: [https://github.com/XTLS/Xray-core](https://github.com/XTLS/Xray-core)
+Fork from: [https://github.com/XTLS/Xray-core](https://github.com/XTLS/Xray-core)
 
-#### removed features
+#### Removed features
 * vmess, ss, hy2, tun, wireguard
 * kcp, reality, ech
 * reverse, grpc api, cmd api
@@ -10,7 +10,7 @@ fork from: [https://github.com/XTLS/Xray-core](https://github.com/XTLS/Xray-core
 
 If you need any feature above, download [XTLS/Xray-core](https://github.com/XTLS/Xray-core) instead.
 
-#### compile
+#### Compile
 ```bash
 go build -v -o "simple-ray" -trimpath -ldflags "-s -w -buildid=" ./main
 ```
